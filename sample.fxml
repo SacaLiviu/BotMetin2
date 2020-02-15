@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480" prefWidth="640" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Text layoutX="61.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="De cate ori sa fie despartit?" wrappingWidth="171.13671875">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+      <Button fx:id="ButtonStack" layoutX="121.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#ButtonStack" text="Start" />
+      <TextField fx:id="TextFieldSplit" layoutX="114.0" layoutY="215.0" prefHeight="25.0" prefWidth="65.0" />
+      <Text layoutX="36.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In stackuri de cate sa fie despartit?" wrappingWidth="221.13671875">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+      <TextField fx:id="TextFieldStack" layoutX="114.0" layoutY="308.0" prefHeight="25.0" prefWidth="65.0" />
+      <Line endX="-100.0" endY="420.0" layoutX="420.0" layoutY="69.0" startX="-100.0" startY="-69.0" />
+      <Label layoutX="70.0" layoutY="7.0" prefHeight="47.0" prefWidth="153.0" text="Separator iteme">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="435.0" layoutY="7.0" prefHeight="47.0" prefWidth="100.0" text="Shop bot">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="TextFieldShopLine" layoutX="427.0" layoutY="215.0" prefHeight="25.0" prefWidth="52.0" />
+      <TextField fx:id="TextFieldPrice" layoutX="453.0" layoutY="296.0" prefHeight="25.0" prefWidth="65.0" />
+      <TextField fx:id="TextFieldShopRow" layoutX="492.0" layoutY="215.0" prefHeight="25.0" prefWidth="52.0" />
+      <Text layoutX="362.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Randuri" wrappingWidth="65.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+      <Text layoutX="429.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pretul produsului" wrappingWidth="112.13671875">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+      <Button fx:id="ButtonShop" layoutX="466.0" layoutY="380.0" mnemonicParsing="false" onMouseClicked="#ButtonShop" text="Start" />
+      <Text layoutX="544.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coloane" wrappingWidth="65.0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
