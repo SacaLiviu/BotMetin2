@@ -21,7 +21,7 @@ public class MyThread extends Thread {
             System.err.println(ex.getMessage());
             System.exit(1);
         }
-        GlobalMouseListenerExample MouseListener1 = new GlobalMouseListenerExample();
+        GlobalMouseListener MouseListener1 = new GlobalMouseListener();
         GlobalScreen.addNativeMouseListener(MouseListener1);
         int MouseState;
         do {
@@ -29,7 +29,7 @@ public class MyThread extends Thread {
             coordonate.setJ(MouseListener1.getY());
             MouseState = MouseListener1.getMouseState();
             try {
-                Thread.sleep(500);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

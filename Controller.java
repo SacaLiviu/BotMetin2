@@ -18,19 +18,19 @@ import static java.lang.Integer.parseInt;
 public class Controller {
 
     @FXML
-    public Button ButtonStack;
+    private Button ButtonStack;
     @FXML
-    public Button ButtonShop;
+    private Button ButtonShop;
     @FXML
-    public TextField TextFieldStack;
+    private TextField TextFieldNrIteme;
     @FXML
-    public TextField TextFieldSplit;
+    private TextField TextFieldStack;
     @FXML
-    public TextField TextFieldShopLine;
+    private TextField TextFieldShopLine;
     @FXML
-    public TextField TextFieldShopRow;
+    private TextField TextFieldShopRow;
     @FXML
-    public TextField TextFieldPrice;
+    private TextField TextFieldPrice;
 
     @FXML
     //BUTTON SHOP
@@ -72,9 +72,12 @@ public class Controller {
         return parseInt(TextFieldShopRow.getText());
     }
 
+    private int TextFieldStack(){ return parseInt(TextFieldStack.getText()); }
+
+    private int TextFieldNrIteme(){ return parseInt(TextFieldNrIteme.getText()); }
+
     public void PuneShop(int xShop, int yShop, int xInventar, int yInventar, int pret,int linii,int coloane) throws AWTException, InterruptedException {
         Robot robot = new Robot();
-
         //descompun pretu in numere
         //NU UITA CA E DE LA COADA LA CAP NU INVERS
         int length = (int)(Math.log10(pret)+1);
@@ -98,7 +101,7 @@ public class Controller {
         }
     }
 
-    void ApasaPret(int[] ListaPret,int length) throws AWTException, InterruptedException {
+    static void ApasaPret(int[] ListaPret, int length) throws AWTException, InterruptedException {
         Robot robot= new Robot();
         int NumarTemporar;
         for(int i=length;i>0;i--){
@@ -164,21 +167,26 @@ public class Controller {
     //BUTTON STACK
     @FXML
     private void ButtonStack() throws InterruptedException, AWTException {
+        int NrStack=TextFieldStack();
+        int[] NrStackList= new int [1];
+        NrStackList[0]=NrStack;
+        int NrIteme=TextFieldNrIteme();
         MyThread ThreadInventar = new MyThread();
         ThreadInventar.start();
         ThreadInventar.join();
         int xInventar=ThreadInventar.returnThreadX();
         int yInventar=ThreadInventar.returnThreadY();
-        int numar
-        MoveMouse(xInventar,yInventar);
+        MoveMouse(xInventar,yInventar,NrStackList,NrIteme);
     }
 
-    public static void MoveMouse(int xShop,int yShop) throws AWTException, InterruptedException {
+    public static void MoveMouse(int xShop,int yShop,int[] NrStack,int NrIteme) throws AWTException, InterruptedException {
         Robot robot = new Robot();
-        //Initializeaza coordonatele inventarului si da un click sa fie centrat metinul5
+        int Stop=0;
+        // da un click sa fie centrat metinul
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        for (int i = 0; i < 5; i++) {
-            for (int j = 1; j < 9; j++) {
+        IesireLoop:
+        for (int i = 0; i < 5 ; i++) {
+            for (int j = 1; j < 9 ; j++) {
                 //Muta mouse pe primu spatiu
                 robot.mouseMove(xShop, yShop);
                 Thread.sleep(25);
@@ -199,16 +207,18 @@ public class Controller {
                 robot.keyRelease(KeyEvent.VK_BACK_SPACE);
                 Thread.sleep(25);
                 //Adauga de cat sa fie stack
-                robot.keyPress(KeyEvent.VK_2);
-                Thread.sleep(25);
-                robot.keyRelease(KeyEvent.VK_2);
+                ApasaPret(NrStack,1);
                 //Apasa enter si ridica
-                //Thread.sleep(250);
                 robot.keyPress(KeyEvent.VK_ENTER);
                 robot.keyRelease(KeyEvent.VK_ENTER);
+                Thread.sleep(40);
                 robot.mouseMove(xShop + 30 * i, yShop + 30 * j);
+                Thread.sleep(25);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                Stop+=NrStack[0];
+                if(Stop>=NrIteme)
+                break IesireLoop;
             }
         }
     }
