@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480" prefWidth="640" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
@@ -20,7 +19,6 @@
          </font>
       </Text>
       <TextField fx:id="TextFieldStack" layoutX="114.0" layoutY="296.0" prefHeight="25.0" prefWidth="65.0" />
-      <Line endX="-100.0" endY="420.0" layoutX="420.0" layoutY="69.0" startX="-100.0" startY="-69.0" />
       <Label layoutX="70.0" layoutY="7.0" prefHeight="47.0" prefWidth="153.0" text="Separator iteme">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -55,5 +53,10 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Text>
+      <CheckBox fx:id="Kashmir" layoutX="450.0" layoutY="333.0" mnemonicParsing="false" text="Kashmir" />
+      <Label fx:id="Loading" layoutX="259.0" layoutY="45.0" prefHeight="36.0" prefWidth="122.0" textFill="#f51f1f">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font></Label>
    </children>
 </Pane>

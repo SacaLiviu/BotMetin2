@@ -2,11 +2,12 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-
-import java.awt.*;
+import java.awt.Robot;
+import java.awt.AWTException;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
@@ -31,18 +32,18 @@ public class Controller {
     private TextField TextFieldShopRow;
     @FXML
     private TextField TextFieldPrice;
-
     @FXML
+    private CheckBox Kashmir;
+    @FXML
+    private Label Loading;
+
     //BUTTON SHOP
-    private void ButtonShop() throws InterruptedException, NativeHookException, AWTException {
+    @FXML
+    private void ButtonShop() throws InterruptedException, AWTException {
 
         Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
         logger.setLevel(Level.WARNING);
         logger.setUseParentHandlers(false);
-
-        // Construct the example object.
-        //GlobalMouseListenerExample MouseListener1 = new GlobalMouseListenerExample();
-        // Add the appropriate listeners.
         GlobalCoordsXY coordonate= new GlobalCoordsXY();
         MyThread threadShop = new MyThread();
         threadShop.start();
@@ -50,6 +51,7 @@ public class Controller {
         int xShop=threadShop.returnThreadX();
         int yShop=threadShop.returnThreadY();
         MyThread ThreadInventar = new MyThread();
+
         ThreadInventar.start();
         ThreadInventar.join();
         int xInventar=ThreadInventar.returnThreadX();
@@ -76,36 +78,72 @@ public class Controller {
 
     private int TextFieldNrIteme(){ return parseInt(TextFieldNrIteme.getText()); }
 
-    public void PuneShop(int xShop, int yShop, int xInventar, int yInventar, int pret,int linii,int coloane) throws AWTException, InterruptedException {
+    private boolean kashmir(){ return Kashmir.isSelected();}
+
+    private void PuneShop(int xShop, int yShop, int xInventar, int yInventar, int pret,int linii,int coloane) throws AWTException, InterruptedException {
         Robot robot = new Robot();
-        //descompun pretu in numere
-        //NU UITA CA E DE LA COADA LA CAP NU INVERS
-        int length = (int)(Math.log10(pret)+1);
-        int[] ListaPret= descompunere(pret);
-      for (int i = 0; i < coloane; i++) {
-            for (int j = 0; j < linii; j++) {
-                robot.mouseMove(xShop + i*30, yShop+(j+1)*30);
-                Thread.sleep(25);
-                robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-                robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                Thread.sleep(50);
-                robot.mouseMove(xInventar+i*30,yInventar+j*30);
-                Thread.sleep(50);
-                robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-                robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                Thread.sleep(10);
-                ApasaPret(ListaPret,length);
-                robot.keyPress(KeyEvent.VK_ENTER);
-                robot.keyRelease(KeyEvent.VK_ENTER);
+        boolean kashmirCheck=kashmir();
+            //descompun pretu in numere
+            //NU UITA CA E DE LA COADA LA CAP NU INVERS
+            int length = (int) (Math.log10(pret) + 1);
+            int[] ListaPret = descompunere(pret);
+            if(!kashmirCheck) {
+                for (int i = 0; i < coloane; i++) {
+                    for (int j = 0; j < linii; j++) {
+                        robot.mouseMove(xShop + i * 30, yShop + (j + 1) * 30);
+                        Thread.sleep(25);
+                        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                        Thread.sleep(25);
+                        robot.mouseMove(xInventar + i * 30, yInventar + j * 30);
+                        Thread.sleep(25);
+                        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                        Thread.sleep(25);
+                        ApasaPret(ListaPret, length);
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                    }
+                }
             }
-        }
+            else{
+                boolean kashmirCounter=false;
+                for (int i = 0; i < coloane; i++) {
+                    for (int j = 0; j < linii; j++) {
+                        robot.mouseMove(xShop + i * 30, yShop + (j + 1) * 30);
+                        Thread.sleep(25);
+                        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                        Thread.sleep(25);
+                        robot.mouseMove(xInventar + i * 30, yInventar + j * 30);
+                        Thread.sleep(25);
+                        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+                        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                        Thread.sleep(25);
+                        if(!kashmirCounter) {
+                            for(int k=0;k<=10;k++){
+                                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                            }
+                            ApasaPret(ListaPret, length);
+                            kashmirCounter = true;
+                            robot.keyPress(KeyEvent.VK_ENTER);
+                            robot.keyRelease(KeyEvent.VK_ENTER);
+                        }
+                        robot.keyPress(KeyEvent.VK_ENTER);
+                        robot.keyRelease(KeyEvent.VK_ENTER);
+                        Thread.sleep(25);
+                    }
+                }
+            }
+
     }
 
-    static void ApasaPret(int[] ListaPret, int length) throws AWTException, InterruptedException {
+    private static void ApasaPret(int[] ListaPret, int length) throws AWTException, InterruptedException {
         Robot robot= new Robot();
         int NumarTemporar;
         for(int i=length;i>0;i--){
-            Thread.sleep(50);
+            Thread.sleep(15);
             NumarTemporar=ListaPret[i-1];
             if(NumarTemporar==0){
                 robot.keyPress(KeyEvent.VK_0);
@@ -150,7 +188,7 @@ public class Controller {
         }
     }
 
-    int[] descompunere(int pret){
+    private int[] descompunere(int pret){
         int n=pret;
         int length = (int)(Math.log10(n)+1);
         int[] ListaPret = new int [length];
@@ -179,11 +217,11 @@ public class Controller {
         MoveMouse(xInventar,yInventar,NrStackList,NrIteme);
     }
 
-    public static void MoveMouse(int xShop,int yShop,int[] NrStack,int NrIteme) throws AWTException, InterruptedException {
+    private static void MoveMouse(int xShop,int yShop,int[] NrStack,int NrIteme) throws AWTException, InterruptedException {
         Robot robot = new Robot();
-        int Stop=0;
         // da un click sa fie centrat metinul
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        int Stop = 0;
         IesireLoop:
         for (int i = 0; i < 5 ; i++) {
             for (int j = 1; j < 9 ; j++) {
@@ -192,14 +230,13 @@ public class Controller {
                 Thread.sleep(25);
                 //Apasa shit->apasa click
                 robot.keyPress(KeyEvent.VK_SHIFT);
-                Thread.sleep(25);
+                Thread.sleep(25);// DACA MODIFICI MAI MULT SARE PESTE ITEME!!
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-                Thread.sleep(25);
                 //Ridica shit->Ridica click
                 robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                Thread.sleep(25);
                 robot.keyRelease(KeyEvent.VK_SHIFT);
                 //Apasa sageata dreapta si ridica
+                Thread.sleep(25);
                 robot.keyPress(KeyEvent.VK_RIGHT);
                 robot.keyRelease(KeyEvent.VK_RIGHT);
                 //Sterge 1
@@ -211,7 +248,6 @@ public class Controller {
                 //Apasa enter si ridica
                 robot.keyPress(KeyEvent.VK_ENTER);
                 robot.keyRelease(KeyEvent.VK_ENTER);
-                Thread.sleep(40);
                 robot.mouseMove(xShop + 30 * i, yShop + 30 * j);
                 Thread.sleep(25);
                 robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
